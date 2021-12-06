@@ -3,7 +3,6 @@ import time
 
 import numpy as np
 import pyaudio
-import matplotlib.pyplot as plt
 
 from tree_animator import TreeAnimator
 from utils.color import hsv_to_rgb
@@ -38,8 +37,9 @@ class FT():
         ''' Gets device index corresponding to mic port '''
         p = pyaudio.PyAudio()
         for i in range(p.get_device_count()):
+            print(p.get_device_info_by_index(i))
             dev = p.get_device_info_by_index(i)
-            if dev['name'] == 'Microphone (Yeti Nano)':
+            if dev['name'] == 'Microphone (Yeti Nano)' or dev['name'] =='Yeti Nano: USB Audio (hw:3,0)':
                 return dev['index']
 
         return None
@@ -76,33 +76,33 @@ class FT():
         octaves = np.array(octaves)
         return octaves
 
-    def plot_ft(self):
-        plt.style.use('ggplot')
-        plt.rcParams['font.size']=18
-        fig = plt.figure(figsize=(13,8))
-        ax = fig.add_subplot(111)
-        plt.plot(self.f_vec,self.fft_samples)
-        ax.set_ylim([0,2*np.max(self.fft_samples)])
-        plt.xlabel('Frequency [Hz]')
-        plt.ylabel('Amplitude [Pa]')
-        ax.set_xscale('log')
-        plt.grid(True)
-
-        # # max frequency resolution 
-        # plt.annotate(r'$\Delta f_{max}$: %2.1f Hz' % (self.sample_rate/(2*self.sample_size)),xy=(0.7,0.92),\
-        #             xycoords='figure fraction')
-
-        # annotate peak frequency
-        annot = ax.annotate('Freq: %2.1f'%(self.f_vec[self.max_loc]),xy=(self.f_vec[self.max_loc],self.fft_samples[self.max_loc]),\
-                            xycoords='data',xytext=(0,30),textcoords='offset points',\
-                            arrowprops=dict(arrowstyle="->"),ha='center',va='bottom')
-    
-        plt.show()
+    # def plot_ft(self):
+    #     plt.style.use('ggplot')
+    #     plt.rcParams['font.size']=18
+    #     fig = plt.figure(figsize=(13,8))
+    #     ax = fig.add_subplot(111)
+    #     plt.plot(self.f_vec,self.fft_samples)
+    #     ax.set_ylim([0,2*np.max(self.fft_samples)])
+    #     plt.xlabel('Frequency [Hz]')
+    #     plt.ylabel('Amplitude [Pa]')
+    #     ax.set_xscale('log')
+    #     plt.grid(True)
+    #
+    #     # # max frequency resolution
+    #     # plt.annotate(r'$\Delta f_{max}$: %2.1f Hz' % (self.sample_rate/(2*self.sample_size)),xy=(0.7,0.92),\
+    #     #             xycoords='figure fraction')
+    #
+    #     # annotate peak frequency
+    #     annot = ax.annotate('Freq: %2.1f'%(self.f_vec[self.max_loc]),xy=(self.f_vec[self.max_loc],self.fft_samples[self.max_loc]),\
+    #                         xycoords='data',xytext=(0,30),textcoords='offset points',\
+    #                         arrowprops=dict(arrowstyle="->"),ha='center',va='bottom')
+    #
+    #     plt.show()
 
 
 class SpectroAnim(TreeAnimator):
     def __init__(self, coords_path):
-        super(MyFirstAnimator, self).__init__(coords_path)
+        super(SpectroAnim, self).__init__(coords_path)
         self.coords_path = coords_path
 
     # Get the total height of the lights distribution
@@ -163,6 +163,7 @@ class SpectroAnim(TreeAnimator):
 
 if __name__ == "__main__":
     coords_path = "./coordinates/sample_coords.csv"
-    anim = MyFirstAnimator(coords_path)
+    anim = SpectroAnim(coords_path)
 
     anim.animation_loop()
+    # ft = FT()

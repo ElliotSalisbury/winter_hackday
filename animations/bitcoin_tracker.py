@@ -11,9 +11,9 @@ API_SECRET = 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkFQSSJ9.eyJhdWQiOiJtZXJjdXJ5IiwidWlkI
 # ^^ never do this in real life lol
 
 COLORS = {
-    'GREEN': [0, 200, 0],
+    'GREEN': [112, 130, 56],
     'VERY_GREEN': [0, 255, 0],
-    'RED': [200, 0, 0],
+    'RED': [255, 87, 51],
     'VERY_RED': [255, 0, 0]
 }
 

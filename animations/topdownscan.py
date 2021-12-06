@@ -52,7 +52,7 @@ class TopDownScanAnimator(TreeAnimator):
         # each time this function is called, num_seconds_since_start will get larger, and this can be used to control and time animations
 
         # This function is expected to return colors. colors are in RGB and in the range 0-255, for example black is [0,0,0], white is [255,255,255], red is [255,0,0]
-        colors = np.full((self.NUM_LIGHTS, 3), fill_value=255, dtype=np.uint8)
+        colors = np.full((self.NUM_LIGHTS, 3), fill_value=0, dtype=np.uint8)
         num_seconds_since_start = (datetime.now() - start_time).total_seconds()
 
         print("num_seconds_since_start: ", num_seconds_since_start)
